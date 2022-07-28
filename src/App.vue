@@ -6,15 +6,16 @@
 </template>
 <script>
  import HelloWorld from "./components/HelloWorld.vue";
-  import footer_end from "./components/footer_end.vue";
+ import footer_end from "./components/footer_end.vue";
+
 export default {
   name:'app',
   data(){
     return{
-      todos:[{id:1,name:"HTML",etat:1},
-              {id:2,name:"VueJs",etat:0},
-              {id:3,name:"CSS",etat:1},
-              {id:4,name:"Bootstrap",etat:0}
+      todos:[{id:1,name:"HTML",description:'video Youtube',etat:1},
+              {id:2,name:"VueJs",description:'projet',etat:0},
+              {id:3,name:"CSS",description:'video Youtube',etat:1},
+              {id:4,name:"Bootstrap",description:'code projet',etat:0}
             ]
     }
   },
@@ -35,11 +36,13 @@ export default {
     }
   },
   components:{
-    HelloWorld,footer_end
-  }
+    HelloWorld,
+    footer_end,
+}
 }
 </script>
 <style>
+ @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
