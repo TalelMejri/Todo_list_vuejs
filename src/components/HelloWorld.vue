@@ -31,12 +31,7 @@
         <tbody>
           <tr v-for="(todo, index) in todos" :key="todo.id">
             <th scope="row">{{ index + 1 }}</th>
-
-            <td v-if="todo.etat" class="text-decoration-line-through">
-              {{ todo.name }}
-            </td>
-            <td v-else class="fw-bold">{{ todo.name }}</td>
-
+            <td :class="todo.etat ? 'decoration' : 'fw-bolder' "> {{todo.name}}</td>
             <td
               v-if="todo.etat"
               class="text-danger"
@@ -129,6 +124,11 @@ export default {
     changer_etat(index) {
       this.$emit("onchange", index, this.info);
     },
+  //   edit_todo(todo) {
+	// 	this.edit_id = todo.id;
+	// 	this.info = todo.name;
+	// 	this.edit = true;
+	// },
   },
   computed: {},
 };
@@ -137,5 +137,9 @@ export default {
 <style>
 * {
   background-color: whitesmoke;
+}
+.decoration{
+  text-decoration: line-through;
+
 }
 </style>
