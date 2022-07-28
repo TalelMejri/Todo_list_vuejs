@@ -19,7 +19,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="todo in todos" :key="todo.id">
+              <tr v-for="(todo,k) in todos" :key="todo.id">
                 <th scope="row">{{todo.id}}</th>
                 
                 <td v-if="todo.etat" class="text-decoration-line-through">{{todo.name}}</td>
@@ -29,7 +29,7 @@
                 <td v-else class="text-succes" @click="changer_etat(todo.id)"  style="cursor:pointer">{{todo.etat ? 'complete':'incolmplet'}}</td>
                 
                 <td>
-                  <button @click="edit(todo.id)" class="btn btn-warning">Edit</button>
+                  <button @click="updateindex(k)" class="btn btn-warning">Edit</button>
                   <button @click="remove(todo.id)" class="btn btn-danger">Delete</button>
                 </td>
               </tr>
@@ -48,13 +48,18 @@
   data(){
    return{
       info:'',
-      filterage:''
+      filterage:'',
+      select:0
    }
   },
   methods: {
     remove(index){
       this.$emit('delete_todo',index);
     },
+    updateindex(index){
+      this.select=index;
+      this.info=this.todos[this.select].name;
+      },
     Onsubmit(){
        if(this.info===''){
          alert('invalid');
@@ -68,8 +73,8 @@
          this.$emit('add_todo',todo);
          this.info='';
     },
-    edit(){
-      // 
+    edit(k){
+      alert(k);
     },
     changer_etat(index){
       this.$emit('onchange',index);
@@ -77,7 +82,7 @@
     
   },
   computed:{
-   
+    
   }
 
   }
