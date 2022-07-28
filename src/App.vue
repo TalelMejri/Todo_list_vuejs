@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-     <HelloWorld :todos="todos" @delete_todo="deletee" @add_todo="add" @modifier="edit" @onchange="changer" ></HelloWorld>
+     <HelloWorld :todos="todos" @delete_todo="deletee" @add_todo="add" @edit_todo="edit" @onchange="changer" ></HelloWorld>
       <footer_end></footer_end>
   </div>
 </template>
