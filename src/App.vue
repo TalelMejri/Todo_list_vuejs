@@ -25,8 +25,8 @@ export default {
     add(todo){
       this.todos.push(todo);
     },
-    edit(index){
-       this.task=this.todos[index].task;
+    edit(todo,index){
+      this.todos[index]=todo;
     },
     changer(index){
       this.todos[index].etat = this.todos[index].etat ? 0 : 1 ;

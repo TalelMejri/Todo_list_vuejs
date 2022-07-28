@@ -4,7 +4,8 @@
        <form class="form shadow d-flex m-5 p-5 rounded"  @submit.prevent="Onsubmit">
          <div class="container">
          <input type="text" v-model="info" class="form-control mb-3 p-4" placeholder="Enter Your Tasks">
-         <button class="btn btn-light  p-3 btn-outline-warning ">Add</button>
+         <button v-if="verifier" class="btn btn-light  p-3 btn-outline-warning ">Add</button>
+         <button @click="update" v-else class="btn btn-light  p-3 btn-outline-success ">Update</button>
          </div>
        </form>
 
@@ -19,18 +20,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(todo,k) in todos" :key="todo.id">
-                <th scope="row">{{todo.id}}</th>
+              <tr v-for="(todo,index) in todos" :key="todo.id">
+                <th scope="row">{{index+1}}</th>
                 
                 <td v-if="todo.etat" class="text-decoration-line-through">{{todo.name}}</td>
                 <td v-else class="fw-bold">{{todo.name}}</td>
 
-                <td  v-if="todo.etat" class="text-danger" @click="changer_etat(todo.id)"  style="cursor:pointer">{{todo.etat ? 'complete':'incolmplet'}}</td>
-                <td v-else class="text-succes" @click="changer_etat(todo.id)"  style="cursor:pointer">{{todo.etat ? 'complete':'incolmplet'}}</td>
+                <td  v-if="todo.etat" class="text-danger" @click="changer_etat(index)"  style="cursor:pointer">{{todo.etat ? 'complete':'incolmplet'}}</td>
+                <td v-else class="text-succes" @click="changer_etat(index)"  style="cursor:pointer">{{todo.etat ? 'complete':'incolmplet'}}</td>
                 
                 <td>
-                  <button @click="updateindex(k)" class="btn btn-warning">Edit</button>
-                  <button @click="remove(todo.id)" class="btn btn-danger">Delete</button>
+                  <button @click="edit(index)" class="btn btn-warning">Edit</button>
+                  <button @click="remove(index)" class="btn btn-danger">Delete</button>
                 </td>
               </tr>
           </tbody>
@@ -49,22 +50,29 @@
    return{
       info:'',
       filterage:'',
-      select:0
+      select:'',
+      verifier:1
    }
   },
   methods: {
     remove(index){
       this.$emit('delete_todo',index);
     },
-    updateindex(index){
-      this.select=index;
-      this.info=this.todos[this.select].name;
-      },
     Onsubmit(){
+      var a=0;
        if(this.info===''){
          alert('invalid');
          return;
        }
+       this.todos.forEach(v=>{
+        if(v.name.toUpperCase()===this.info.toUpperCase()){
+          alert("deja existe");
+          a=1;
+          return;
+        }
+       })
+        if(a==0){
+           if(this.verifier==0){
         let todo={
            id:this.todos.length+1,
            name:this.info,
@@ -72,12 +80,26 @@
         }
          this.$emit('add_todo',todo);
          this.info='';
+           }else{
+
+          let todo={
+           id:this.select,
+           name:this.info,
+           etat:this.todo[this.select].etat
+        }
+         this.$emit('onchange',todo,this.select);
+         this.info='';
+         this.verifier=1;
+        }
+        }
     },
-    edit(k){
-      alert(k);
+    edit(index){
+      this.info=this.todos[index].name;
+      this.verifier=0;
+      this.select=index;
     },
     changer_etat(index){
-      this.$emit('onchange',index);
+      this.$emit('onchange',index,this.info);
     },
     
   },
