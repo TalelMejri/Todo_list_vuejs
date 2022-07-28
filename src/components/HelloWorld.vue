@@ -65,7 +65,6 @@
               <button @click="editTodo(index)" class="btn btn-warning m-1">
                 Edit
               </button>
-
               <button @click="remove(index)" class="btn btn-danger m-1">
                 Delete
               </button>
