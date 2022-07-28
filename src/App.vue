@@ -27,6 +27,8 @@ export default {
     },
     edit(todo,index){
       this.todos[index]=todo;
+    //   let index = this.todos.findIndex(t => t.id === todo.id);
+		//   this.todos[index].name = todo.name;
     },
     changer(index){
       this.todos[index].etat = this.todos[index].etat ? 0 : 1 ;
