@@ -39,12 +39,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(todo, index) in todos" :key="todo.id">
+          <tr v-for="(todo,index) in todos" :key="todo.id">
             <th scope="row">{{ index + 1 }}</th>
             <td :class="todo.etat ? 'decoration' : 'fw-bolder'">
               {{ todo.name }}
             </td>
-            <td :class="todo.etat ?'decoration' :'fw-bolder'" >{{todo.description}}</td>
+            <td :class="todo.etat ? 'decoration' : 'fw-bolder'">{{todo.description}}</td>
             <td
               v-if="todo.etat"
               class="text-danger"
@@ -111,8 +111,7 @@
         </tbody>
       </table>
     </div>
-       <input v-model="search"  type="text" id="search" placeholder="Search Here With name or description ">
-       <button class="btn btn-info p-2 m-2" @click="recherche">search</button>
+       <input v-model="search" @keypress="recherche"  type="text" id="search" placeholder="Search Here With name or description ">
        <br>
        <small style="font-size:20px;margin-left:-18px" :class="this.trouve ? 'text-success' : 'text-danger'" >{{this.erreur}}</small>
   </div>
@@ -131,8 +130,8 @@ export default {
       select: "",
       edit: 0,
       description: "",
-      search:"",
-      id:-1,
+      search:'',
+      id:0,
       trouve:0,
       erreur:''
     };
@@ -177,7 +176,7 @@ export default {
             description:this.description,
             etat: this.todos[this.select].etat,
           };
-          this.$emit("edit_todo", todo, this.select);
+          this.$emit("edit_todo",todo,this.select);
           this.info = "";
           this.description="";
           this.edit = 0;
@@ -191,7 +190,7 @@ export default {
       this.select = index;
     },
     changer_etat(index) {
-      this.$emit("onchange", index, this.info);
+      this.$emit("onchange",index,this.info);
     },
     recherche(){
       this.todos.forEach(v=>{
@@ -200,12 +199,12 @@ export default {
           this.id=v.id-1;
          }else{
            if(this.search===''){
-            this.erreur="champ empty!";
+             this.erreur="champ empty!";
            }
            else if(this.trouve===0) {
              this.erreur="doesn't exist";
            }else {
-              this.erreur=" exist "+this.search;
+             this.erreur="exist "+this.search;
            }
          }
       })  
