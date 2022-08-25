@@ -1,10 +1,10 @@
 <template>
   <div class="todo">
-    <h1  class="text-center fw-bolder my-5 text-warning">
-        <i class="material-icons"> list </i> 
-           Liste des taches 
-     </h1>
-    <form  class="form shadow d-flex m-5 p-5 rounded"  @submit.prevent="Onsubmit">
+    <h1 class="text-center fw-bolder my-5 text-warning">
+      <i class="material-icons"> list </i>
+      Liste des taches
+    </h1>
+    <form class="form shadow d-flex m-5 p-5 rounded" @submit.prevent="Onsubmit">
       <div class="container">
         <input
           type="text"
@@ -27,7 +27,7 @@
       </div>
     </form>
 
-    <div v-if="trouve==0" class="container">
+    <div v-if="trouve == 0" class="container">
       <table class="table">
         <thead>
           <tr>
@@ -39,12 +39,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(todo,index) in todos" :key="todo.id">
+          <tr v-for="(todo, index) in todos" :key="todo.id">
             <th scope="row">{{ index + 1 }}</th>
             <td :class="todo.etat ? 'decoration' : 'fw-bolder'">
               {{ todo.name }}
             </td>
-            <td :class="todo.etat ? 'decoration' : 'fw-bolder'">{{todo.description}}</td>
+            <td :class="todo.etat ? 'decoration' : 'fw-bolder'">
+              {{ todo.description }}
+            </td>
             <td
               v-if="todo.etat"
               class="text-danger"
@@ -72,9 +74,8 @@
           </tr>
         </tbody>
       </table>
-   
     </div>
-     <div v-else class="container">
+    <div v-else class="container">
       <table class="table">
         <thead>
           <tr>
@@ -86,15 +87,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr >
-            <th scope="row">{{ this.id+1}}</th>
+          <tr>
+            <th scope="row">{{ this.id + 1 }}</th>
             <td :class="this.todos[this.id].etat ? 'decoration' : 'fw-bolder'">
               {{ this.todos[this.id].name }}
             </td>
-            <td :class="this.todos[this.id].etat ?'decoration' :'fw-bolder'" >{{this.todos[this.id].description}}</td>
+            <td :class="this.todos[this.id].etat ? 'decoration' : 'fw-bolder'">
+              {{ this.todos[this.id].description }}
+            </td>
             <td
-             :class="this.todos[this.id].etat ? 'text-danger' :'text-success'"
-              @click="changer_etat(this.id+1)"
+              :class="this.todos[this.id].etat ? 'text-danger' : 'text-success'"
+              @click="changer_etat(this.id)"
               style="cursor: pointer"
             >
               {{ this.todos[this.id].etat ? "complete" : "incolmplet" }}
@@ -111,9 +114,19 @@
         </tbody>
       </table>
     </div>
-       <input v-model="search" @keypress="recherche"  type="text" id="search" placeholder="Search Here With name or description ">
-       <br>
-       <small style="font-size:20px;margin-left:-18px" :class="this.trouve ? 'text-success' : 'text-danger'" >{{this.erreur}}</small>
+    <input
+      v-model="search"
+      @keypress="recherche"
+      type="text"
+      id="search"
+      placeholder="Search Here With name or description "
+    />
+    <br />
+    <small
+      style="font-size: 20px; margin-left: -18px"
+      :class="this.trouve ? 'text-success' : 'text-danger'"
+      >{{ this.erreur }}</small
+    >
   </div>
 </template>
 
@@ -130,10 +143,10 @@ export default {
       select: "",
       edit: 0,
       description: "",
-      search:'',
-      id:0,
-      trouve:0,
-      erreur:''
+      search: "",
+      id: 0,
+      trouve: 0,
+      erreur: "",
     };
   },
   methods: {
@@ -148,11 +161,10 @@ export default {
       }
       this.todos.forEach((v) => {
         if (v.name.toUpperCase() === this.info.toUpperCase()) {
-           
-          if(v.etat===1){
-              alert("task compelet");
-          }else{
-          alert("deja existe");
+          if (v.etat === 1) {
+            alert("task compelet");
+          } else {
+            alert("deja existe");
           }
           a = 1;
           return;
@@ -163,61 +175,61 @@ export default {
           let todo = {
             id: this.todos.length + 1,
             name: this.info,
-            description:this.description,
+            description: this.description,
             etat: 0,
           };
           this.$emit("add_todo", todo);
           this.info = "";
-          this.description="";
+          this.description = "";
         } else {
           let todo = {
             id: this.select,
             name: this.info,
-            description:this.description,
+            description: this.description,
             etat: this.todos[this.select].etat,
           };
-          this.$emit("edit_todo",todo,this.select);
+          this.$emit("edit_todo", todo, this.select);
           this.info = "";
-          this.description="";
+          this.description = "";
           this.edit = 0;
         }
       }
     },
     editTodo(index) {
       this.info = this.todos[index].name;
-      this.description=this.todos[index].description;
+      this.description = this.todos[index].description;
       this.edit = 1;
       this.select = index;
     },
     changer_etat(index) {
-      this.$emit("onchange",index,this.info);
+      this.$emit("onchange", index, this.info);
     },
-    recherche(){
-      this.todos.forEach(v=>{
-        if(v.name.toUpperCase()===this.search.toUpperCase() || v.description.toUpperCase()===this.search.toUpperCase()){
-          this.trouve=1;
-          this.id=v.id-1;
-         }else{
-           if(this.search===''){
-             this.erreur="champ empty!";
-           }
-           else if(this.trouve===0) {
-             this.erreur="doesn't exist";
-           }else {
-             this.erreur="exist "+this.search;
-           }
-         }
-      })  
-   },
+    recherche() {
+      this.todos.forEach((v) => {
+        if (
+          v.name.toUpperCase().indexOf(this.search.toUpperCase()) != -1 ||
+          v.description.toUpperCase().indexOf(this.search.toUpperCase()) != -1
+        ) {
+          this.trouve = 1;
+          this.id = v.id - 1;
+        } else {
+          if (this.search === "") {
+            this.erreur = "champ empty!";
+          } else if (this.trouve === 0) {
+            this.erreur = "doesn't exist";
+          } else {
+            this.erreur = "exist " + this.search;
+          }
+        }
+      });
+    },
     //  edit_todo(todo) {
     // 	this.edit_id = todo.id;
     // 	this.info = todo.name;
     // 	this.edit = true;
     // },
   },
-  components: {
-
-},
+  components: {},
 };
 </script>
 <style>
@@ -227,13 +239,13 @@ export default {
 .decoration {
   text-decoration: line-through;
 }
-#search{
-  height:40px;
+#search {
+  height: 40px;
   text-align: center;
   width: 350px;
-  padding-left:10px;
+  padding-left: 10px;
   border: none;
-  border-bottom:2px solid green;
+  border-bottom: 2px solid green;
   outline: none;
   font-size: 18px;
 }
