@@ -4,7 +4,10 @@
       <i class="material-icons"> list </i>
       Liste des taches
     </h1>
-    <form class="form shadow d-flex m-5 p-5 rounded" @submit.prevent="Onsubmit">
+    <form
+      class="form shadow justify-content-center d-flex m-5 p-5 rounded"
+      @submit.prevent="Onsubmit"
+    >
       <div class="container">
         <input
           type="text"
